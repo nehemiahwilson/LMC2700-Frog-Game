@@ -26,6 +26,31 @@
 	animation: moveLeft 1.25s linear;
 }
 
+
+
+.hills {
+   width: 600px;
+	height:200px;
+	border: 1px solid black;
+	background-image: url(Images/Hills.gif);
+	background-size: 600px 200px;
+	margin: 0;
+    top:  78.2633px;
+    position: fixed; 
+}
+
+.grass {
+    width: 600px;
+	height:200px;
+	border: 1px solid black;
+	background-image: url(Images/grass.gif);
+	background-size: 600px 200px;
+	margin: 0;
+    top:  78.2633px;
+    position: fixed;
+
+}
+
 .score {
 	text-align: center;
 	font-family: "ConnectionIII";

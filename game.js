@@ -14,26 +14,25 @@ function runGame() {
 	scoreCount = 0;
 	score.innerHTML = "Score: " + scoreCount;
 	
-	// Create frog div and add to the game div
 	frog.classList.add("frog");
-	game.appendChild(frog);
 	
-	// Event handler for space bar
 	document.addEventListener("keydown", function(event) {
 		if (event.keyCode == 32) {
-			
-			// Using the space bar to transition between screens during intro
 			if (isIntro) {
 				if (imgArray.length == 0) {
-					// Begin game
-					game.style.backgroundImage = "url(Images/Background.jpeg)";
+                    let hills = document.createElement('div');
+                    hills.classList.add("hills");
+		            game.appendChild(hills);
+                    let grass = document.createElement('div');
+                    grass.classList.add("grass");
+		            game.appendChild(grass);
+					game.style.backgroundImage = "url(Images/Cloud.gif)";
+                    game.appendChild(frog);
 					isIntro = false;
 					generateRocks();
 				} else {
 					game.style.backgroundImage = imgArray.shift();
 				}
-			
-			// Using the space bar to restart the game
 			} else if (isGameOver) {
 				location.reload();		   
 			}
@@ -45,20 +44,19 @@ function runGame() {
 // Function to generate random rocks
 function generateRocks() {
 	if (!isGameOver) {
-		
 		// Generate a random interval between 1 and 2 seconds
 		let randomTime = (Math.random() * (1 - 0.5) + 0.5) * 2000;
 
-		// Create a new rock div and add to the game div
+		// Create a new rock div and add to game div.  We are using percentages
+		// to ensure the position of the elements stay consisten on window
+		// resize.
 		let rock = document.createElement('div');
 		rock.classList.add('rock');
 		game.appendChild(rock);
 
-		// Interval timer to generate multiple rocks
 		let timer = setInterval(function() {
 			if (!isIntro) {
-				
-				// Get current positions of frog and rock
+				// Get current position of frog
 				frogTop = parseInt(window.getComputedStyle(frog).getPropertyValue("top"));
 				rockLeft = parseInt(window.getComputedStyle(rock).getPropertyValue("left"));
 
@@ -67,19 +65,19 @@ function generateRocks() {
 					clearInterval(timer);
 					gameOver();
 					return;
-				} else if (rockLeft <= 5) {
+				}  else if (rockLeft <= 5) {
 					// Increment score
 					scoreCount += 10;
-					score.innerHTML = "Score:  " + scoreCount;
+					score.innerHTML = "Score: " + scoreCount;
 					rock.remove();
 				}	
 
-				// Win condition
 				if (scoreCount >= 300) {
 					clearInterval(timer);
 					gameOver();
 					return;
 				}
+			
 			}
 		}, 20)
 		setTimeout(generateRocks, randomTime);
@@ -98,7 +96,6 @@ function jump() {
 
 // Function to reset the game
 function gameOver() {
-	
 	// Remove all elements from the game div before resfreshing
 	while(game.firstChild) {
 		game.removeChild(game.lastChild);
@@ -107,12 +104,13 @@ function gameOver() {
 	isGameOver = true;
 	
 	if (scoreCount >= 300) {
-		// Win condition
 		game.style.backgroundImage = "url(Images/YouWin.png)";
 	} else {
-		// Lose condition
 		game.style.backgroundImage = "url(Images/TryAgain.png)";
 	}
+	
+	// Refresh page
+//	location.reload();
 }
 
 runGame();
